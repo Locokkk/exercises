@@ -1,0 +1,29 @@
+//编写一个程序，找到两个单链表相交的起始节点。
+//剪掉长链表前面部分，使其和短链表长度相等，再进行比较
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(!headA || !headB)    return nullptr;
+        ListNode *countA = headA;
+        ListNode *countB = headB;
+        int lA = 0;
+        int lB = 0;
+        while(countA){
+            ++ lA;
+            countA = countA -> next;
+        }
+        while(countB){
+            ++ lB;
+            countB = countB -> next;
+        }
+        int i = max(lA,lB) - min(lA,lB);
+        if(lA > lB) for(i; i > 0; -- i) headA = headA -> next;
+        else    for(i; i > 0; -- i) headB = headB -> next;
+        while(headA){
+            if(headA == headB)  return headA;
+            headA = headA -> next;
+            headB = headB -> next;
+        }
+        return nullptr;
+    }
+};
