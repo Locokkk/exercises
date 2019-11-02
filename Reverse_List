@@ -1,0 +1,23 @@
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+       ListNode *dummy=new ListNode(-1);
+       ListNode *prev=dummy;
+       dummy->next=head;
+        
+       for(int i=0;i<m-1;++i)
+       {//让prev指向要挪动的第一个结点的上一个，m-1次
+           prev=prev->next;
+       }
+        
+       ListNode *cur=prev->next;
+       for(int j=0;j<n-m;++j)
+       {
+           ListNode *t=cur->next;
+           cur->next=t->next;
+           t->next=prev->next;
+           prev->next=t;               
+       }
+        return dummy->next;
+    }
+};
