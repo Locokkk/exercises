@@ -1,0 +1,35 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+//输入一个字符串，求出该字符串包含的字符集合
+//例如：  输入abcqweracb  输出abcqwer(将所有出现的字符输出一次即可)
+void one(string s)
+{
+	int arr[256] = { 0 };
+	int i = 0;
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int length = s.length();
+	for (size_t i = 0; (int)i<len; ++i)
+	{
+		arr[i] = 1;
+	}
+	for (int i = 0; i < length; ++i)
+	{
+		if(arr[s[i]] == 1)
+		{
+			cout << s[i];
+			arr[s[i]] = 0;
+		}
+	}
+	cout << endl;
+}
+
+int main()
+{
+	string s;
+	while (cin>>s)
+	{
+		one(s);
+	}
+}
