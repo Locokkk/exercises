@@ -1,0 +1,16 @@
+//数组中出现次数超过一半的数字
+class Solution {
+public:
+    int MoreThanHalfNum_Solution(vector<int> numbers) {//先把所有数字出现次数全部计数，存到一个数组中
+        int count[10]={0};
+        for(int i=0;i<numbers.size();++i){
+            count[numbers[i]]++;//数字的值对应计数数组的下标
+        }
+        for(int j=0;j<10;++j){
+            if(count[j]>(numbers.size()/2)){
+                return j;
+            }
+        }
+        return 0;
+    }
+};
