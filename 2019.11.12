@@ -1,0 +1,81 @@
+//对于昨天的统计回文和连续最大和问题做一点小小的调整
+
+//统计回文
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+bool Is_PalindromeString(string str)
+{
+	int len = str.length();
+	for (int i = 0; i < len; i++)
+	{
+		if (str[i] == str[len - 1])
+		{
+			len -= 1;//--len的用法很巧妙
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+int main()
+{
+	string s1, s2;
+	int count = 0;
+	while (cin >> s1 >> s2)
+	{
+		int len = s1.size()+1;
+		int length = s2.size();
+		for (int i = 0; i <len; i++)
+		{
+			s1.insert(i, s2);
+			if (Is_PalindromeString(s1))
+			{
+				++count;
+			}
+			s1.erase(i, length);
+		}
+		cout << count << endl;
+	}
+	return 0;
+}
+
+
+
+//连续最大和
+
+#include <iostream>
+using namespace std;
+ 
+int main(){
+    int n;
+    cin>>n;
+    int a[n];
+    for(int i = 0;i < n;++i){
+        cin>>a[i];
+    }
+ 
+    int sum = a[0];
+    int max = a[0];
+    // 从第二个数起开始寻找使和最大的
+    for(int i = 1;i < n;++i){
+        if(sum >= 0){
+            // 之前的和不小于0，那么它对获得最大和就是有贡献的
+            sum += a[i];
+        }else{
+            // 前面和小于0，没必要再计入，sum从当前开始再计起
+            sum = a[i];
+        }
+        if(max < sum)max = sum;
+    }
+    cout<<max;
+    return 0;
+}
+
+
+
