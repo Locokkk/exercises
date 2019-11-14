@@ -1,0 +1,60 @@
+// 合法括号序列判断
+//给定一个字符串A和它的长度n，请返回一个bool值代表它是否为一个合法的括号串。（是否可以成功匹配）
+//"(()())",6  true
+//"()a()()",7  false
+
+class Parenthesis {
+public:
+    bool chkParenthesis(string A, int n) {
+        // write code here
+        stack<int> st;
+         if(n%2==1)
+        {
+            return false;//奇数个直接false
+        }
+        for(size_t i=0;i<A.size();i++)
+        {//遇左括号进栈，遇右括号在栈中删除栈顶的一个左括号(刚好匹配)，注意在一个循环中遍历
+            if(A[i]=='(')
+            {
+                st.push(A[i]);
+            }
+            else if(A[i]==')')
+            {
+                if(st.empty())
+                {//遇右括号时，栈为空则不匹配，返回false
+                    return false;
+                }
+                st.top();
+            }
+            else//不是左括号和右括号
+                return false;
+        }
+       if(st.empty())//最终栈空了说明括号全部匹配
+           return true;
+    }
+};
+
+//Fibonacci数列
+//给你一个N，你想让其变为一个Fibonacci数，每一步你可以把当前数字X变为X-1或者X+1，现在给你一个数N求最少需要多少步可以变为Fibonacci数。
+//输入：输入为一个正整数N(1 ≤ N ≤ 1,000,000)  输出：输出一个最小的步数变为Fibonacci数"
+//思路：将Fibonacci数列延伸到包含N，再取N到左边和右边Fibonacci数中步数较小的
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int l,r,N;//l、r分别为N到左、右两边的Febonacci数需要走的步数
+    cin>>N;
+    int f0=0,f1=1,f2=1;
+     while(f2<N)
+        {//将Fibonacci数列延伸到包含N
+            f2=f0+f1;
+            f0=f1;
+            f1=f2;
+        }
+    l=N-f0;//注意这里是f0不是f1,因为上面f1已经赋值给了f0
+    r=f1-N;//注意这里是f1不是f2,因为上面f2已经赋值给了f1
+    cout<<min(l,r)<<endl;
+}
+
+
