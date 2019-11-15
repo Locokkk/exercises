@@ -1,0 +1,13 @@
+//另类加法
+//不使用+或其他算术运算符实现两个数相加
+class UnusualAdd {
+public:
+    int addAB(int A, int B) {
+        // write code here
+        while(A--)
+        {
+            ++B;
+        }
+        return B;
+    }
+};
