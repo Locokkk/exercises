@@ -1,0 +1,38 @@
+//查找组成一个偶数最接近的两个素数
+//任意一个偶数（大于2）都可以由2个素数组成，组成偶数的2个素数有很多种情况，本题目要求输出组成指定偶数的两个素数差值最小的素数对
+
+
+#include<iostream>
+using namespace std;
+bool is_PrimeNumber(int n)
+{
+    if (n == 1 || n == 2)
+        return true;
+    else{
+        for (int i = 2; i < n; i++){
+            if (n%i == 0)
+                return false;
+        }
+        return true;
+    }
+}
+ 
+int main() {
+    int n;
+    int Prime1, Prime2;
+    while (cin >> n) {
+        if (n < 2)
+            return 1;
+        else {
+            for (int i = 1; i <= n / 2;i++) {
+                if (is_PrimeNumber(i) && is_PrimeNumber(n - i)) {
+                    Prime1 = i;
+                    Prime2 = n - i;
+                }
+            }
+            cout << Prime1 << endl;
+            cout << Prime2 << endl;
+            }
+    }
+    return 0;
+}
