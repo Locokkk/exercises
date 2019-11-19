@@ -1,0 +1,33 @@
+//二叉树
+//有一棵二叉树，树上每个点标有权值，权值各不相同，请设计一个算法算出权值最大的叶节点到权值最小的叶节点的距离。
+//二叉树每条边的距离为1，一个节点经过多少条边到达另一个节点为这两个节点之间的距离。给定二叉树的根节点root，请返回所求距离。
+
+
+class Tree {
+public:
+    void getCode(map<int, string>&m, TreeNode*root,string s) {
+        if (root->left == NULL && root->right == NULL) {
+            m[root->val] = s;      //记录每一个叶子的权值和编码
+            return;
+        }
+        if (root->left) {
+            getCode(m, root->left, (s + '1'));
+        }
+        if (root->right) {
+            getCode(m, root->right, (s + '0'));
+        }
+    }
+    int getDis(TreeNode* root) {
+        // write code here
+        map<int, string>m;//<权值，编码>
+        string s;
+        getCode(m, root,s);
+        auto it = m.begin();
+        string s1 = it->second;
+        auto end = (--m.end());
+        string s2 = end->second;
+        int i = 0, j = 0;
+        for (; i < s1.size() && j < s2.size()&&s1[i] == s2[j]; i++, j++) {}
+        return s1.size() - i + s2.size() - j;
+    }
+};
