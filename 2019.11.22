@@ -1,0 +1,29 @@
+//今日小雪哇(但没下雪kkk)
+
+//计算日期到天数转换
+//输入某年某月某日，判断这一天是这一年的第几天
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int year,month,day;
+    while(cin>>year>>month>>day){
+        int getmonthday[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+        if(year<=0||month<=0||month>12||day<=0||day>getmonthday[month-1]){
+            return -1;
+        }
+        if((year%4==0&&year%100!=0)||year%400==0){
+           getmonthday[1]=29;
+        }
+        int count=0;
+        for(int i=0;i<month-1;i++){
+            count+=getmonthday[i];
+        }
+        count+=day;
+        cout<<count<<endl;
+    }
+    return 0;
+}
+
+
