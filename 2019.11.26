@@ -1,0 +1,43 @@
+统计回文
+#include<iostream>
+#include<string>
+using namespace std;
+
+bool Is_PalindromeString(string str)
+{
+	int len = str.length();
+	for (int i = 0; i < len; i++)
+	{
+		if (str[i] == str[len - 1])
+		{
+			len -= 1;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+int main()
+{
+	string s1, s2;
+	int count = 0;
+	while (cin >> s1 >> s2)
+	{
+		int len = s1.size()+1;
+		int length = s2.size();
+		for (int i = 0; i <len; i++)
+		{
+			s1.insert(i, s2);
+			if (Is_PalindromeString(s1))
+			{
+				++count;
+			}
+			s1.erase(i, length);
+		}
+		cout << count << endl;
+	}
+	system("pause");
+	return 0;
+}
