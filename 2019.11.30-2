@@ -1,0 +1,73 @@
+//二叉树的层序遍历
+
+//给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
+//注意：打印的时候同层结点放在一起
+//例如:
+//给定二叉树: [3,9,20,null,null,15,7]
+//      3
+//     / \
+//    9  20
+//      /  \
+//     15   7
+   
+//返回其层次遍历结果：
+//    [
+//      [3],
+//      [9,20],
+//      [15,7]
+//    ]
+//即输出：[[3],[9,20],[15,7]]  (打印的时候同层结点放在一起)
+思路：节点入队，同时层号入队，将nodeQue中的一个结点存进vector后，它的孩子节点入队
+代码：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        queue<TreeNode*> nodeQue;//存放结点
+        queue<int> levelQue;//存放层数
+        if(root)
+        {
+            nodeQue.push(root);
+            levelQue.push(0);
+        }
+
+        int curLevel=-1;
+        vector<vector<int>> vv;
+        while(!nodeQue.empty())
+        {
+            TreeNode* node=nodeQue.front();
+            nodeQue.pop();
+            int level=levelQue.front();
+            levelQue.pop();
+
+            if(level>curLevel)
+            {//要是同层结点此时不作处理
+                vv.push_back(vector<int>());//开新层
+                curLevel=level;
+            }
+
+            vv[level].push_back(node->val);//结点的值存进vector中
+            if(node->left)
+            {
+                nodeQue.push(node->left);
+                levelQue.push(level+1);
+            }
+            if(node->right)
+            {
+                nodeQue.push(node->right);    
+                levelQue.push(level+1);
+            }
+        }
+        return vv;
+    }
+};
+
+
