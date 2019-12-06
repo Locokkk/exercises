@@ -1,0 +1,96 @@
+// 数根
+
+//数根可以通过把一个数的各个位上的数字加起来得到。如果得到的数是一位数，那么这个数就是数根。
+//如果结果是两位数或者包括更多位的数字，那么再把这些数字加起来。如此进行下去，直到得到是一位数为止。
+//比如，对于24 来说，把2 和4 相加得到6，由于6 是一位数，因此6 是24 的数根。
+//再比如39，把3 和9 加起来得到12，由于12 不是一位数，因此还得把1 和2 加起来，最后得到3，这是一个一位数，因此3 是39 的数根。
+//现在给你一个正整数，输出它的数根。
+
+#include<iostream>
+using namespace std;
+int NumRoot(int count)
+{
+    if(count<10)
+        return count;
+    int ret=0;
+    while(count>0)
+    {
+        ret+=count%10;
+        count/=10;
+    }
+    if(ret>=10)
+    {
+        ret=NumRoot(ret);
+    }
+    return ret;
+}
+int main()
+{
+    string s;
+    while(cin>>s)
+    {
+        int count=0;
+        for(auto i=s.begin();i!=s.end();i++)
+        {
+            count+=(*i)-'0';
+        }
+        count=NumRoot(count);
+        cout<<count<<endl;
+    }
+    return 0;
+}
+
+
+//快到碗里来
+
+//小喵们很喜欢把自己装进容器里的（例如碗），但是要是碗的周长比喵的身长还短，它们就进不去了。
+//现在告诉你它们的身长，和碗的半径，请判断一下能否到碗里去。
+//输入有多组数据,每组数据包含两个整数n (1≤n≤2^128) 和r (1≤r≤2^128)，分别代表喵的身长和碗的半径,圆周率使用3.14。
+//输出：对应每一组数据，如果喵能装进碗里就输出“Yes”；否则输出“No”.
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    long double n,r;
+    while(cin>>n>>r)
+    {
+       if(n<=2*3.14*r)
+       {
+           cout<<"Yes"<<endl;
+       }
+        else
+        {
+            cout<<"No"<<endl;
+        }
+    }
+    return 0;
+}
+
+
+
+//变态跳台阶
+
+//一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+//n级台阶的跳法有n种情况：
+//  最后一跳跳了一级
+//  最后一跳跳了两级
+//       ……
+//  最后一跳跳了n级
+//所以，n级台阶的跳法就相当于 n-1级再跳一次一级台阶 + n-2级再跳一次二级台阶 + … + 0级最后跳一次n级台阶的跳法之和，由此可得出以下递推公式：
+//f(n)=f(n-1)+f(n-2)+...+f(0),跳上一个n级台阶的跳法等于跳上一个n-1级台阶的跳法加...
+//而f(n-1)=f(n-2)+...+f(0)，递推公式简化得：
+//  f(n)=1,      n=1;
+//  f(n)=2f(n−1),n>1 
+
+class Solution {
+public:
+    int jumpFloorII(int number) {
+        if(number==1)
+            return 1;
+        if(number>1)
+            return 2*jumpFloorII(number-1);
+    }
+};
+
+
