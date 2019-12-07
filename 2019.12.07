@@ -1,0 +1,49 @@
+//不用加减乘除做加法
+//写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号
+
+class Solution {
+public:
+    int Add(int num1, int num2)
+    {
+        while(num1--)
+        {
+            num2++;
+        }
+        return num2;
+    }
+};
+
+
+//三角形
+//给定三条边，请你判断能不能组成三角形
+
+#include<iostream>
+using namespace std;
+int is_Trangle(double a,double b,double c)
+{
+    for(int i=0;i<3;i++)
+    {
+        if(a+b<=c||a-b>=c)
+            return -1;
+        double d=a;
+        a=b;
+        b=c;
+        c=d;
+    }
+    return 0;
+}
+
+int main()
+{
+    double a,b,c;
+    while(cin>>a>>b>>c)
+    {
+        int res=is_Trangle(a,b,c);
+        if(res==0)
+            cout<<"Yes"<<endl;
+        else
+            cout<<"No"<<endl;
+    }
+    return 0;
+}
+
