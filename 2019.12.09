@@ -1,0 +1,110 @@
+//因子个数
+//一个正整数可以分解成一个或多个数组的积。例如36=2*2*3*3，即包含2和3两个因子。
+//NowCoder最近在研究因子个数的分布规律，现在给出一系列正整数，他希望你开发一个程序输出每个正整数的因子个数。
+//输入：输入包括多组数据，每组数据仅有一个整数n (2≤n≤100000)
+//输出：对应每个整数，输出其因子个数，每个结果占一行
+
+#include <iostream>
+#include<math.h>
+using namespace std;
+int main(){
+    int n,count;
+    while(cin>>n)
+    {
+        count=0;
+        for(int i=2;i<=sqrt(n);i++)
+        {
+            if(n%i==0)
+            {
+                while(n%i==0)
+                {
+                    n/=i;
+                }
+                count++;
+            }
+        }
+        if(n!=1)//除完的结果也要加一
+            count++;
+        cout<<count<<endl;
+    }
+    return 0;
+}
+
+
+//有假币
+//一不小心把一个假币混进了一堆真币里面去了。
+//只知道假币的重量比真币的质量要轻，给你一个天平（天平两端能容纳无限个硬币），请用最快的时间把那个可恶的假币找出来。
+//输入：硬币的总个数
+//输出：最多要称几次一定能把那个假币找出来？
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int n;
+    while(cin>>n)
+    {
+        if(n == 0)
+            return 0;
+        else if(n == 1)
+            cout<<0<<endl;
+        else if(n==2||n==3)
+            cout<<1<<endl;
+        else{
+            int count=1;
+            while(n>3)
+            {
+                if(n%3==0)
+                    n/=3;
+                else
+                    n=n/3+1;
+                count++;
+            }
+            cout<<count<<endl;
+        }
+    }
+    return 0;
+}
+
+
+//最难的问题
+//密码破译
+//消息加密的办法是：对消息原文中的每个字母，分别用该字母之后的第5个字母替换（例如：消息原文中的每个字母A 都分别替换成字母F）
+//其他字符不变(空格)，并且消息原文的所有字母都是大写的。密码中的字母与原文中的字母对应关系如下。
+//密码字母：A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+//原文字母：V W X Y Z A B C D E F G H I J K L M N O P Q R S T U
+
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+    string s;
+    while(getline(cin,s))
+    {
+        char arr[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+        int i,j;
+        for(i=0;i<s.size();i++)
+        {
+           if(s[i]==' ')
+               cout<<' ';
+            else
+            {
+                for(j=0;j<26;j++)
+                {
+                    if(s[i]==arr[j])
+                        break;
+                }
+                
+                if(j>=5)
+                    cout<<arr[j-5];
+                else
+                    cout<<arr[j+21];
+            }
+        }
+        cout<<endl;
+    }
+    return 0;
+}
+
+
