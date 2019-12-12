@@ -1,0 +1,68 @@
+//路径总数
+//在一个m*n的网格的左上角有一个机器人，机器人在任何时候只能向下或者向右移动，机器人试图到达网格的右下角，有多少可能的路径。
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int> > res(m,vector<int>(n, 1));//第一行和第一列是1
+        for(int i = 1;i < m;i ++)
+        {//第一行和第一列在初始化中已特殊处理
+            for(int j = 1;j < n;j ++)
+            {
+                res[i][j]=res[i-1][j]+res[i][j-1];
+            }
+        }
+        return res[m-1][n-1];
+    }
+};
+
+
+//路径总数II
+//和上题的框架相同，机器人还是要从网格左上角到达右下角，但是网格中添加了障碍物，障碍物用1表示
+//[
+//[0,0,0],
+//[0,1,0],
+//[0,0,0]
+//]
+
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int> > &obstacleGrid) {
+        const int M=obstacleGrid.size();
+        const int N=obstacleGrid[0].size();
+        vector<vector<int> >res(M,vector<int>(N,0));//初始值为0
+        for(int i = 0;i < M;i ++)
+        {
+            if(obstacleGrid[i][0]==1)
+            {//无法到达
+                break;
+            }
+            res[i][0]=1;//可到达，路径数置1
+        }
+        for(int j = 0;j < N;j ++)
+        {
+            if(obstacleGrid[0][j]==1)
+            {
+                break;
+            }
+            res[0][j]=1;
+        }
+        
+        for(int i=1;i<M;i++)
+        {
+            for(int j=1;j<N;j++)
+            {
+                if(obstacleGrid[i][j]==1)
+                {
+                    res[i][j]=0;
+                }
+                else
+                {
+                    res[i][j]=res[i-1][j]+res[i][j-1];
+                }
+            }
+        }
+        return res[M-1][N-1];
+    }
+};
+
