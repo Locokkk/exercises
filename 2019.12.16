@@ -1,0 +1,36 @@
+//连续最大和
+
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n;
+    while(cin >> n)
+    {
+        vector<int> v(n);
+        for(int i=0;i<v.size();i++)
+        {
+            cin>>v[i];
+        }
+        int max=v[0];
+        int sum=v[0];
+        for(int i = 1;i < v.size();i ++)
+        {  
+            if(sum>=0)
+            {//如果之前的和>=0,则说明是对结果有贡献
+                sum+=v[i];
+            }
+            else
+            {//如果之前的和<0,则说明无贡献,可以从当前个开始重新计算
+                sum=v[i];
+            }
+            if(sum>max)
+            {
+                max=sum;
+            }
+        }
+        cout << max << endl;
+    }
+    return 0;
+}
