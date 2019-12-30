@@ -1,0 +1,128 @@
+//两数相加
+/*
+给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int len1 = 1, len2 = 1;//记录l1 l2长度
+        ListNode* p = l1, *q = l2;
+        while(p->next != nullptr)
+        {
+            ++len1;
+            p = p->next;
+        }
+        while(q->next != nullptr)
+        {
+            ++len2;
+            q = q->next;
+        }
+        if(len1 > len2)
+        {
+            for(int i = 0;i < len1 - len2; ++i)
+            {
+                q->next = new ListNode(0);
+                q = q->next;
+            }
+        }
+        if(len2 > len1)
+        {
+            for(int i = 0;i < len2 - len1; ++i)
+            {
+                p->next = new ListNode(0);
+                p = p->next;
+            }
+        }
+        p = l1;
+        q = l2;
+        //开始相加
+        ListNode* l3 = new ListNode(-1);
+        int flag = 0;//处理进位
+        int ret;//记录结果
+        ListNode* w = l3;
+        while(p != nullptr && q != nullptr)
+        {
+            ret = p->val + q->val + flag;
+            flag = ret / 10;
+            w->next = new ListNode(ret % 10);
+            p = p->next;
+            q = q->next;
+            w = w->next;
+        }
+        if(flag != 0)
+        {
+            w->next = new ListNode(1);
+            w = w->next;
+        }
+        return l3->next;
+    }
+};
+
+
+
+//无重复字符的最长子串
+//给定一个字符串，请你找出其中不含有重复字符的最长子串的长度
+
+/*
+输入: "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3
+输入: "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1
+输入: "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串
+*/
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int len;
+        int max;
+        int start, end;
+        int i;
+        len = s.size();
+        if(len == 0 || len == 1)
+        {
+            return len;
+        }
+        start = 0;
+        end = 0;
+        len = 1;
+        max = 1;
+        while(s[end + 1] != 0)
+        {
+            for(i = start; i <= end; i++)
+            {
+                if(s[end + 1] == s[i])
+                {
+                    break;
+                }
+            }
+            if(i <= end)
+            {//注意这里的判断是滑动窗口中是否有和end+1位相等的，即start是否需要重置到相等位，开始新的计算
+                start = i + 1;
+            }
+            end++;
+            len = end - start + 1;
+            if(max < len)
+            {
+                max = len;
+            }
+        }
+        return max;
+    }
+};
+
