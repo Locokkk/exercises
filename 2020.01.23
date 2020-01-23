@@ -1,0 +1,32 @@
+//冒泡排序
+
+#include<iostream>
+#include<stdlib.h>
+#include<vector>
+using namespace std;
+
+void MaoPaoSort(vector<int>& v)
+{
+	for (int i = 1; i < v.size(); i++)
+	{
+		for (int j = 0; j < i; j++)
+		{
+			if (v[i] < v[j])
+			{
+				swap(v[i], v[j]);
+			}
+		}
+	}
+}
+int main()
+{
+	vector<int> v = { 20, 4, 4, 78, 9, 13 };
+	MaoPaoSort(v);
+	for (auto e : v)
+	{
+		cout << e <<" ";
+	}
+	cout << endl;
+	system("pause");
+	return 0;
+}
