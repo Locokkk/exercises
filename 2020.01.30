@@ -1,0 +1,29 @@
+//旋转数组
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        /*
+        while(k--)
+        {//超时
+            int end = nums.size() - 1;
+            int ret = nums[end];
+            for(int i = nums.size() - 2; i >= 0; i--)
+            {
+                nums[i+1] = nums[i];
+            }
+            nums[0] = ret;
+        }
+        */
+
+        vector<int> newvec(nums.size(), 0);
+        for(int i = 0; i < nums.size(); i++)
+        {
+            newvec[(i + k) % nums.size()] = nums[i];
+        }
+        for(int i = 0; i < nums.size(); i++)
+        {
+            nums[i] = newvec[i];
+        }
+    }
+};
