@@ -1,0 +1,52 @@
+//在排序数组中查找元素的第一个和最后一个位置
+/*
+给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置
+你的算法时间复杂度必须是 O(log n) 级别
+如果数组中不存在目标值，返回 [-1, -1]
+
+示例 1:
+输入: nums = [5,7,7,8,8,10], target = 8
+输出: [3,4]
+
+示例 2:
+输入: nums = [5,7,7,8,8,10], target = 6
+输出: [-1,-1]
+*/
+
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {  
+        // 二分法，首先确定一个目标数，然后已该目标数的位置为界限，向左向右找边界
+        int i=0, j=nums.size()-1;
+        int mid;
+        vector<int> res;
+        for(i, j; i<=j; ){  // 二分法找到目标数的位置
+            mid = (i+j)/2;
+            if(target<nums[mid]) j = mid-1;
+            else if(nums[mid]<target) i=mid+1;
+            else break;
+        }
+        if(j<i){  // 没有找到目标数
+            res.push_back(-1);
+            res.push_back(-1);
+            return res;
+        }
+        // 寻找左边界, 这里的数不大于目标数
+        i=0, j=mid;
+        for(i, j;i<j;){  // 当i等于j时就找到了左边界
+            int mid = (i+j)/2;
+            if(nums[mid]!=target) i = mid+1;
+            else j=mid;  // 注意此时j与mid相等不加1，保证最后两个指针能收缩到边界上
+        }
+        res.push_back(i);
+        // 寻找右边界
+        i=mid, j=nums.size()-1;  // i包括mid，保证右侧范围内至少包括一个目标数
+        for(i,j;i<j;){
+            int mid = (i+j)/2 + 1;  // 寻找右边界时，中点加1，保证能够收敛到右边界
+            if(nums[mid]!=target) j = mid-1;
+            else i = mid;
+        }
+        res.push_back(i);
+        return res;
+    }
+};
