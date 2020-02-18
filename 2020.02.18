@@ -1,0 +1,29 @@
+//星际密码
+
+#include<iostream>
+using namespace std;
+#define MAX 10000//如果这个数不足4位则用0填充，如果大于4位的则只输出最后4位。
+int Password(int n)
+{
+    int f1=0,f2=1,cur=1;
+    for(int i=0;i<n;i++)
+    {
+        cur=f1+f2;
+        f1=f2%10000;
+        f2=cur%10000;
+    }
+    return cur%10000;
+}
+int main()
+{
+    int n,count;
+    while(cin>>n)
+    {
+        for(int i=0;i<n;i++)
+        {
+            cin>>count;
+            printf("%04d",Password(count));
+        }
+            cout<<endl;
+    }
+}
