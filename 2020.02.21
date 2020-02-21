@@ -1,0 +1,43 @@
+//实现自定义类型的operator=
+
+class myString
+{
+public:
+	myString(p_data = nullptr);
+	myString(const myString& str);
+	~myString(void);
+private:
+	char* mp_data;
+};
+
+//实现myString的赋值运算符函数
+myString& operator=(const myString& str)
+{
+	if (this == &str)
+	{
+		return *this;
+	}
+
+	delete[]mp_data;
+	mp_data = nullptr;
+	mp_data = new char[strlen(str.mp_data) + 1];
+
+	strcpy(mp_data, str.mp_data);
+	return *this;
+}
+
+//进阶版
+myString& operator(const myString& str)
+{
+	if (this != &str)
+	{
+		myString Tmp(str);
+		//临时对象，出了if便会调用析构函数销毁变量Tmp中Tmp.mp_data指针指向的内存
+		//而Tmp.mp_data所指内存就是实例mp_data之前的内存，相当于自己调用析构函数释放实例mp_data的内存
+
+		char* tmp_data = Tmp.mp_data;
+		Tmp.mp_data = mp_data;
+		mp_data = tmp_data;
+	}
+	return *this;
+}
