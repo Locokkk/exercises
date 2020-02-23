@@ -1,0 +1,54 @@
+//单例模式---只能生成一个实例，构造函数是private的
+
+//1.定义一个静态的实例，在需要的时候创建它,只适用于单线程
+class single1
+{
+	private single1()
+	{
+	}
+
+	static single1 s;
+	public static GetInstance()
+	{
+		if (s == NULL)
+		{
+			s = new single1();
+		}
+		return s;
+	}
+};
+
+
+//正确实现方法
+//懒汉
+class Test
+{
+private:
+	volatile static int *data;
+public:
+	int* get_instance()
+	{//只有调用整个函数时才会初始化
+		if (data == NULL)
+		{
+			mutex.lock();
+			if (data == NULL)
+			{
+				data = new int; //4字节的空间首地址赋值给data
+			}
+			mutex.unlock();
+		}
+		return data;
+	}
+};
+
+/*
+1.实现最基本的单例模式
+2.防止编译器过度优化volatile
+3.保证初始化加载过程线程安全
+4.尽可能的避免锁冲突
+*/
+
+
+
+
+
