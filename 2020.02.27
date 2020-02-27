@@ -1,0 +1,61 @@
+//回文串验证
+
+class Solution {
+public:
+    //判断当前字符是不是除了数字和字母的其他字符
+   bool isChar_Number(char ch)
+   {
+       if(ch>='a'&&ch<='z'||
+         ch>='0'&&ch<='9')
+       {
+           return true;
+       }
+       return false;
+   }
+    
+   bool isPalindrome(string s) {
+       if(s.empty())
+           return true;
+    
+       for(auto& ch:s)//注意引用
+       {
+           if(ch>='A'&&ch<='Z')//将大写字母全部转化为小写
+           {
+               ch+=32;
+           }
+       }
+       
+       size_t start=0,finish=s.size()-1;
+       while(start<finish)
+       {
+           //判断除了字母和数字的其他字符
+           while(start<finish&&
+                 isChar_Number(s[start])==false)//在此注意satrt和finish的条件判断，思考在偶数串中start和finish走到中间位置且相等后的判断
+               ++start;
+           while(start<finish&&
+                 isChar_Number(s[finish])==false)
+               --finish;
+           
+           if(start<finish)
+           {
+               if(s[start]==s[finish])
+               {
+                   ++start;
+                   --finish;
+               }
+               else
+               {
+                   return false;
+               }
+           }
+           
+        }
+       return true;
+	}
+};
+
+
+
+
+
+
