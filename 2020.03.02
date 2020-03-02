@@ -1,0 +1,45 @@
+//分解因数
+
+所谓因子分解，就是把给定的正整数a，分解成若干个素数的乘积，即 a = a1 × a2 × a3 × ... × an,并且 1 < a1 ≤ a2 ≤ a3 ≤ ... ≤ an。其中a1、a2、...、an均为素数。 先给出一个整数a，请输出分解后的因子。
+
+
+#include<iostream>
+#include<math.h>
+using namespace std;
+int main()
+{
+    int a;
+    while(cin >> a)
+    {
+        cout << a << " = ";
+        int i = 2;
+        while(i)
+        {
+            if(a % i == 0)
+            {//找到第一个可以除的素数
+                cout << i;
+                a = a/i;
+                break;
+            }
+            i++;
+        }
+        
+        while(a != 1)
+        {//找到剩下可以除的素数
+            int i = 2;
+            while(1)
+            {
+                if(a % i == 0)
+                {
+                    cout << " * " << i;
+                    a = a/i;
+                    break;
+                }
+                i++;
+            }
+        }
+        cout << endl;
+    }
+    return 0;
+}
+
