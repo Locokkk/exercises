@@ -1,0 +1,121 @@
+//淘宝网店
+
+#include<iostream>
+using namespace std;
+
+int arr[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+//是否是闰年
+bool IsLeap(int year)
+{
+    if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+    {
+        return true;
+    }
+    return false;
+}
+//是否是素数月
+bool IsPrime(int month)
+{
+    if(month == 2 || month == 3 || month == 5 || month == 7 || month == 11)
+    {
+        return true;
+    }
+    return false;
+}
+//同年同月的计算
+int SameMonth(int month, int day1, int day2)
+{
+    if(IsPrime(month))
+    {
+        return day2 - day1 + 1;
+    }
+    else
+    {
+        return (day2 - day1 + 1) * 2;
+    }
+}
+//同一年不同月的计算
+int SameYear(int year, int month1, int month2, int day1, int day2)
+{
+    //第一个月的计算
+    int sum = 0;
+    if(IsLeap(year) == true && month1 == 2)
+    {
+        sum += SameMonth(month1, day1, arr[month1 - 1] + 1);
+    }
+    else
+    {
+        sum += SameMonth(month1, day1, arr[month1 - 1]);
+    }
+    //中间月的计算
+    for(int i = month1 + 1; i < month2; i++)
+    {
+        if(IsLeap(year) == true && i == 2)
+        {
+            sum += SameMonth(i, 1, arr[i - 1] + 1);
+        }
+        else
+        {
+            sum += SameMonth(i, 1, arr[i - 1]);
+        }
+    }
+    //最后一个月的计算
+    sum += SameMonth(month2, 1, day2);
+    return sum;
+}
+
+int main()
+{
+    int year1, year2, month1, month2, day1, day2;
+    while(cin >> year1 >> month1 >> day1 >> year2 >> month2 >> day2)
+    {
+        int sumIn = 0;
+        if(year1 == year2)
+        {
+            if(month1 == month2)
+            {
+                //素数月赚一天一元
+                sumIn += SameMonth(month1, day1, day2);
+            }
+            else
+            {
+                sumIn += SameYear(year1, month1, month2, day1, day2);
+            }
+        }
+        else
+        {
+            //计算第一年
+            sumIn += SameYear(year1, month1, 12, day1, 31);
+            for(int i = year1 + 1; i < year2; i++)
+            {
+                sumIn += SameYear(i, 1, 12, 1, 31);
+            }
+            //计算最后一年
+            sumIn += SameYear(year2, 1, month2, 1, day2);
+        }
+        cout << sumIn << endl;
+    }
+}
+
+
+//斐波那契凤尾
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int v[100001]= {0, 1, 2};
+    for(int i = 3; i < 100001; i++)
+    {
+        v[i] = v[i - 1] + v[i - 2];
+        v[i] %= 1000000;
+    }
+    int n;
+    while(scanf("%d", &n) != - 1)
+    {
+         printf((n < 29 ? "%d\n" : "%06d\n"),v[n]);
+    }
+    return 0;
+}
+
+
