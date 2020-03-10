@@ -1,0 +1,105 @@
+//mkdir
+
+/*
+示例1
+输入
+3
+/ a
+/ a / b
+/ a / b / c
+3
+/ usr / local / bin
+/ usr / bin
+/ usr / local / share / bin
+输出
+mkdir - p / a / b / c
+
+mkdir - p / usr / bin
+mkdir - p / usr / local / bin
+mkdir - p / usr / local / share / bin
+*/
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		vector<string> v;
+		vector<bool> res(n, true);
+		for (int i = 0; i < n; i++)
+		{
+			string s;
+			cin >> s;
+			v.push_back(s);
+		}
+		sort(v.begin(), v.end());
+		for (int i = 0; i < v.size() - 1; i++)
+		{
+			if (v[i] == v[i + 1])
+				res[i] = false;
+			if (v[i].size() < v[i + 1].size() && v[i] == v[i + 1].substr(0, v[i].size()) && \
+				v[i + 1][v[i].size()] == '/')
+				res[i] = false;
+		}
+		for (int i = 0; i < res.size(); i++)
+		{
+			if (res[i])
+			{
+				cout << "mkdir -p " << v[i] << endl;
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}
+
+
+
+//数据库连接池
+
+/*
+输入
+6
+A connect
+A disconnect
+B connect
+C connect
+B disconnect
+C disconnect
+输出
+2
+*/
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		int size = 0, maxsize = 0;
+		string id, s;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> id >> s;
+			if (s == "connect")
+				size++;
+			else if (s == "disconnect")
+				size--;
+			if (size > maxsize)
+			{
+				maxsize = size;
+			}
+		}
+		cout << maxsize << endl;
+	}
+	return 0;
+}
+
