@@ -1,0 +1,32 @@
+//最长上升子序列
+
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n;
+    while(cin >> n)
+    {
+         vector<int> v(n, 0);
+        for(int i = 0; i < n; i++)
+        {
+            cin >> v[i];
+        }
+        vector<int> res(n, 1);
+        int result = 1;
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < i; j++)
+            {
+                if(v[i] > v[j])
+                {
+                    res[i] = max(res[i], res[j] + 1);
+                }
+            }
+            result = max(result, res[i]);
+        }
+            cout << result << endl;
+    }
+    return 0;
+}
