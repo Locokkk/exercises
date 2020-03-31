@@ -1,0 +1,31 @@
+//最小栈 基本接口的实现
+
+class Solution {
+public:
+    stack<int> s1, s2;//s2是辅助栈，s1任何数据都入，s2只入比当前小的或者相等的数据
+    void push(int value) {
+        s1.push(value);
+        if(s2.empty())
+        {
+            s2.push(value);
+        }
+        else if(value <= s2.top())
+        {
+            s2.push(value);
+        }
+    }
+    void pop() {
+        if(s1.top() == s2.top())
+        {//相等的话说明是新的数据，两个栈都可入,所以两个栈都要弹
+            s2.pop();
+        }
+        s1.pop();//不相等说明是新的数据，由于太大而不能入s2，所以弹s1
+    }
+    int top() {
+        return s1.top();//s2有的没有的s1都有
+    }
+    int min() {
+        return s2.top();
+    }
+};
+
