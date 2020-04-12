@@ -1,0 +1,55 @@
+//二叉树的层序遍历 要求：分层打印
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        queue<TreeNode*> nodeq;
+        queue<int> levelq;
+        vector<vector<int>> vv;
+        if(root)
+        {
+            nodeq.push(root);
+            levelq.push(0);
+        }
+
+        while(!nodeq.empty())
+        {
+            TreeNode* node = nodeq.front();
+            nodeq.pop();
+
+            int level = levelq.front();
+            levelq.pop();
+
+            // 检查level层的vector是否存在，不存在则创建一个
+            if(level >= vv.size())
+                vv.push_back(vector<int>());
+
+            // 将出来的数据，进到对应的vector分层
+            vv[level].push_back(node->val);
+
+            // 将下一层的节点带进队列
+            if(node->left)
+            {
+                nodeq.push(node->left);
+                levelq.push(level+1);
+            }
+
+            if(node->right)
+            {
+                nodeq.push(node->right);
+                levelq.push(level+1);
+            }
+        }
+
+        return vv;
+    }
+};
