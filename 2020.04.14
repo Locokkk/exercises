@@ -1,0 +1,50 @@
+//二叉搜索树与双向链表
+
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;  // prev
+	struct TreeNode *right; // next
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    void _Convert(TreeNode* cur, TreeNode*& prev)
+    {
+        if(cur == nullptr)
+            return;
+        
+        _Convert(cur->left, prev);
+        
+        // 通过prev中序顺序中cur的前一个节点，中序出来正好是有序的，改prev和cur之间的链接关系
+        if(prev)
+        {
+            prev->right = cur; // next
+            cur->left = prev;  // prev
+        }
+        
+        prev = cur;
+        
+        _Convert(cur->right, prev);
+    }
+        
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        if(pRootOfTree == nullptr)
+            return nullptr;
+        
+        TreeNode* prev = nullptr;
+        _Convert(pRootOfTree, prev);
+        
+        
+        TreeNode* head = pRootOfTree;
+        while(head->left)
+        {
+            head = head->left;
+        }
+        
+        return head;
+    }
+};
