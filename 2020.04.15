@@ -1,0 +1,52 @@
+//根据前序和中序遍历序列构造二叉树
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* _buildTree(vector<int>& preorder, vector<int>& inorder, int& prei, int inbegin, int inend)
+    {
+        if(inbegin > inend) return nullptr;
+        int rootVal = preorder[prei];
+        TreeNode* root = new TreeNode(rootVal);
+        // 在中序序列中去找root的位置
+        int inRooti = inbegin;
+        while(inRooti <= inend)
+        {
+            if(inorder[inRooti] == rootVal)
+                break;
+            else
+                ++inRooti;
+        }
+        // [inbegin, inRooti-1] inRooti [inRooti+1, inend] 左子树的中序[inbegin, inRooti-1] 右子树的中序[inRooti+1, inend]
+        // 如果中序左区间存在则递归创建左子树，如果中序左区间不存在，则左子树是空树
+        if(inbegin <= inRooti-1)
+            root->left = _buildTree(preorder, inorder, ++prei, inbegin, inRooti-1);
+        else
+            root->left= nullptr;
+
+        // 同上
+         if(inRooti+1 <= inend)
+            root->right = _buildTree(preorder, inorder, ++prei, inRooti+1, inend);
+        else
+            root->right = nullptr;
+
+        return root;
+    }
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder)
+    {
+        int prei = 0;
+        int inbegin = 0;
+        int inend = inorder.size()-1;
+        return _buildTree(preorder, inorder, prei, inbegin, inend);
+    }
+};
+
