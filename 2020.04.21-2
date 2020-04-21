@@ -1,0 +1,27 @@
+//和为S的两个数字  有序数组中找出和为S的两数，要求乘积是所有符合的一对数中最小的
+
+class Solution {
+public:
+    vector<int> FindNumbersWithSum(vector<int> array,int sum) {//一般来说，和相等的两数，距离远的比距离近的乘积小
+        int left = 0, right = array.size() - 1;
+        vector<int> res;
+        while(left < right)
+        {
+            if(array[left] + array[right] == sum)
+            {
+                res.push_back(array[left]);
+                res.push_back(array[right]);
+                break;
+            }
+            while(array[left] + array[right] > sum)
+            {
+                right--;
+            }
+            while(array[left] + array[right] < sum)
+            {
+                left++;
+            }
+        }
+        return res;
+    }
+};
