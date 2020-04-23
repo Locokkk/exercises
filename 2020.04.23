@@ -1,0 +1,24 @@
+//翻转单词顺序列
+
+class Solution {
+public:
+    string ReverseSentence(string str) {
+	    string res;
+        string::iterator it;
+	    int i = str.size() - 1, j = str.size() - 1;
+	    while (i >= 0 && j >= 0)
+	    {
+	    	if (i == 0 || str[i - 1] == ' ')
+		    {
+		    	res += str.substr(i, j - i + 1);//截取一个单词
+                if(i != 0)
+                {//从后往前走，走到第一个，也就是全句最后一个单词就不用这步操作了
+                    j = i - 2;
+		    	          res += ' ';
+                }
+	    	}
+	    	i--;
+    	}
+	    return res;
+    }
+};
