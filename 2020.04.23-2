@@ -1,0 +1,32 @@
+//扑克牌顺子
+
+class Solution {
+public:
+    bool IsContinuous( vector<int> numbers ) {
+        int numofZero = 0;//大王小王的个数
+        int numofRange = 0;//每张牌之间的间隔
+        if(numbers.size() == 0)
+        {
+            return 0;
+        }
+        sort(numbers.begin(), numbers.end());
+        for(int i = 0; i < numbers.size() - 1; i++)
+        {//i控制在numbers.size()-2，因为后面会和i的下一个比较
+            if(numbers[i] == 0)
+            {//先判断0再判断对子
+                numofZero++;
+                continue;
+            }
+            if(numbers[i] == numbers[i + 1])
+            {//对子直接返回错误
+                return false;
+            }
+            numofRange += numbers[i + 1] - numbers[i] - 1;
+        }
+        if(numofZero >= numofRange)
+        {
+            return true;
+        }
+        return false;
+    }
+};
