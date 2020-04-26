@@ -1,0 +1,59 @@
+//孩子们的游戏----圆圈中最后剩下的数
+
+class Solution {
+public:
+    int LastRemaining_Solution(int n, int m)
+    {
+        if(n < 1 || m < 1)
+        {
+            return -1;
+        }
+        int i = 0;
+        list<int> l;
+        for(; i < n; i++)
+        {
+            l.push_back(i);
+        }
+        list<int>::iterator cur = l.begin();
+        while(l.size() > 1)
+        {
+            for(int i = 1; i < m; i++)
+            {//注意这块边界值的控制
+                cur++;
+                if(cur == l.end())
+                {
+                    cur = l.begin();
+                }
+            }
+            list<int>::iterator next = ++cur;
+            if(next == l.end())
+            {
+                next = l.begin();
+            }
+            cur--;
+            l.erase(cur);
+            cur = next;
+        }
+        return *cur;
+    }
+};
+
+
+
+一个简化的写法(效率高)
+class Solution {
+public:
+    int LastRemaining_Solution(int n, int m)
+    {
+        if(m < 1 || n < 1)
+        {
+            return -1;
+        }
+        int last = 0;
+        for(int i = 2; i <= n; i++)
+        {
+            last = (last + m) % i;
+        }
+        return last;
+    }
+};
