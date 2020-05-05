@@ -1,0 +1,39 @@
+//链表中环的入口结点
+
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    ListNode* EntryNodeOfLoop(ListNode* pHead)
+    {
+          if(pHead == NULL)
+          {
+              return NULL;
+          }
+        ListNode* fast = pHead;
+        ListNode* slow = pHead;
+        while(fast && fast->next)
+        {//快慢指针法，相遇则说明有环，再让一个从起点一个从相遇处走，再次遇见的地方就是环的入口
+            fast = fast->next->next;
+            slow = slow->next;
+            if(fast == slow)
+            {
+                slow = pHead;
+                while(slow != fast)
+                {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;
+            }
+        }
+        return NULL;
+    }
+};
