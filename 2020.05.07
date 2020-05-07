@@ -1,0 +1,41 @@
+//二叉树的下一个结点(中序遍历)
+
+/*
+struct TreeLinkNode {
+    int val;
+    struct TreeLinkNode *left;
+    struct TreeLinkNode *right;
+    struct TreeLinkNode *next;
+    TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {
+        
+    }
+};
+*/
+class Solution {
+public:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        if(pNode->right)
+        {//该结点的右子树不为空
+            TreeLinkNode* root = pNode->right;
+            while(root->left)
+            {
+                root = root->left;
+            }
+            return root;
+        }
+        else if(pNode->next && pNode->next->left == pNode)
+        {//该节点是父节点的左节点  注意判空很重要
+            return pNode->next;
+        }
+        else if(pNode->next && pNode->next->right == pNode)
+        {//该节点是右节点，需要一直向上遍历寻找让某一父节点是左节点的父节点
+            while(pNode->next && pNode->next->left != pNode)
+            {
+                pNode = pNode->next;
+            }
+            return pNode->next;
+        }
+        return nullptr;//节点是根节点
+    }
+};
