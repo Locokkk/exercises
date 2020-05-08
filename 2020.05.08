@@ -1,0 +1,115 @@
+//按之字形打印二叉树
+
+两个栈实现：
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    vector<vector<int> > Print(TreeNode* pRoot) {
+        vector<vector<int> > res;
+        if(pRoot != nullptr)
+        {
+            stack<TreeNode*> s1, s2;
+            s1.push(pRoot);
+            while(!s1.empty() || !s2.empty())
+            {
+                vector<int> ret1, ret2;
+                while(!s1.empty())
+                {//向s2存储偶数层结点
+                    TreeNode* cur = s1.top();
+                    if(cur->left)
+                    {
+                        s2.push(cur->left);
+                    }
+                    if(cur->right)
+                    {
+                        s2.push(cur->right);
+                    }
+                    ret1.push_back(cur->val);
+                    s1.pop();
+                }
+                if(ret1.size())
+                {
+                    res.push_back(ret1);
+                }
+                
+                while(!s2.empty())
+                {//向s1存储奇数层结点
+                    TreeNode* cur = s2.top();
+                    if(cur->right)
+                    {
+                        s1.push(cur->right);
+                    }
+                    if(cur->left)
+                    {
+                        s1.push(cur->left);
+                    }
+                    ret2.push_back(cur->val);
+                    s2.pop();
+                }
+                if(ret2.size())
+                {
+                    res.push_back(ret2);
+                }
+            }
+        }
+        return res;
+    }
+};
+
+
+
+//把二叉树打印成多行(层序遍历)
+
+一个巧妙的写法：
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+        vector<vector<int> > Print(TreeNode* pRoot) {
+            vector<vector<int> > res;
+            if(pRoot != nullptr)
+            {
+                queue<TreeNode*> q;
+                q.push(pRoot);
+                while(!q.empty())
+                {
+                    int ret = 0;
+                    int size = q.size();
+                    vector<int> retv;
+                    while(ret++ < size)
+                    {
+                        TreeNode* cur = q.front();
+                        if(cur->left)
+                        {
+                            q.push(cur->left);
+                        }
+                        if(cur->right)
+                        {
+                            q.push(cur->right);
+                        }
+                        retv.push_back(cur->val);
+                        q.pop();
+                    }
+                    res.push_back(retv);
+                }
+            }
+            return res;
+        }
+};
