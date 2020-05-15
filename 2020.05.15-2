@@ -1,0 +1,35 @@
+//三角形的最大路径和
+//自顶向下：
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		vector<vector<int> > v(n, vector<int>(n));
+		for (int i = 0; i < n; ++i)
+		{
+			for (int j = 0; j <= i; ++j)
+			{
+				cin >> v[i][j];
+			}
+		}
+		vector<vector<int> > res(n, vector<int>(n));
+		res[0][0] = v[0][0];
+		for (int i = 1; i < n; i++)
+		{
+			for (int j = 0; j <= i; j++)
+			{
+				res[i][j] = max(res[i - 1][j], res[i - 1][j - 1]) + v[i][j];
+			}
+		}
+		sort(res[n - 1].begin(), res[n - 1].end());
+		cout << res[n - 1][n - 1] << endl;
+	}
+	return 0;
+}
