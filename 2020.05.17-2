@@ -1,0 +1,71 @@
+//腐烂的橘子----广度优先搜索
+
+int xy[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};//方向矩阵
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        if(grid.size() == 0)
+        {
+            return 0;
+        }
+        //存储腐烂橘子的队列
+        queue<pair<int, int> > q;
+        int row = grid.size();
+        int col = grid[0].size();
+        for(int i = 0; i < row; ++i)
+        {
+            for(int j = 0; j < col; ++j)
+            {
+                if(grid[i][j] == 2)
+                {
+                    q.push(make_pair(i, j));
+                }
+            }
+        }
+        int step = 0;
+        while(!q.empty())
+        {
+            //对于同时间进入队列的橘子，同时腐烂四周，同时出队
+            int size = q.size();
+            int flag = 0;//flag的作用是确定有新鲜橘子被腐烂才++step,例如最后一个被感染的橘子，在队列中，会进入循环，但实际上它不会感染其它橘子
+            while(size--)
+            {
+                pair<int, int> curPos = q.front();
+                q.pop();
+                for(int i = 0; i < 4; ++i)
+                {
+                    //把位置分为横、纵坐标处理
+                    int nx = curPos.first + xy[i][0];
+                    int ny = curPos.second + xy[i][1];
+                    if(nx < 0 || nx >= row
+                    || ny < 0 || ny >= col)
+                    {//可腐烂位置的合法性判断
+                        continue;
+                    }
+                    if(grid[nx][ny] == 1)
+                    {//新鲜橘子才能被感染，感染的橘子入队
+                        flag = 1;
+                        grid[nx][ny] = 2;
+                        q.push(make_pair(nx, ny));
+                    }
+                }
+            }
+            if(flag)
+            {
+                step++;//在一次循环的最后，即同时间入队的橘子同时腐烂四周，这是一次step++
+            }
+        }
+        //最后判断是否还有新鲜橘子
+        for(int i = 0; i < row; ++i)
+        {
+            for(int j = 0; j < col; ++j)
+            {
+                if(grid[i][j] == 1)
+                {
+                    return -1;
+                }
+            }
+        }
+        return step;
+    }
+};
