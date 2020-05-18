@@ -1,0 +1,48 @@
+//岛屿数量(DFS)
+
+int pos[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+class Solution {
+public:
+    void DFS(vector<vector<char> >&grid, int row, int col, vector<vector<int> >& sign, int curRow, int curCol)
+    {
+        //对每个被找到的grid中的1在sign中标记，算入本个岛屿中
+        sign[curRow][curCol] = 1;
+        for(int i = 0; i < 4; ++i)
+        {//对每个被找到的grid中的1,找它四周可以连接的岛
+            int nx = curRow + pos[i][0];
+            int ny = curCol + pos[i][1];
+            if(nx < 0 || nx >= row || ny < 0 || ny >= col)
+            {//判断范围
+                continue;
+            }
+            if(grid[nx][ny] == '1' && sign[nx][ny] == 0)
+            {//注意条件，是未被标记的
+                DFS(grid, row, col, sign, nx, ny);
+            }
+        }
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        if(grid.size() == 0)
+        {
+            return 0;
+        }
+        int row = grid.size();
+        int col = grid[0].size();
+        //sign作为标记矩阵
+        vector<vector<int> > sign(row, vector<int> (col, 0));
+        int number = 0;
+        for(int i = 0; i < row; ++i)
+        {
+            for(int j = 0; j < col; ++j)
+            {
+                if(grid[i][j] == '1' && sign[i][j] == 0)//注意条件，是未被标记的
+                {
+                    //开始一轮的DFS找寻
+                    ++number;
+                    DFS(grid, row, col, sign, i, j);
+                }
+            }
+        }
+        return number;
+    }
+};
