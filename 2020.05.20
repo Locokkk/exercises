@@ -1,0 +1,24 @@
+//斐波那契数列的第n项----动态规划
+
+class Solution {
+public:
+    int Fibonacci(int n) {
+        if(n == 0)
+        {
+            return 0;
+        }
+        if(n == 1 || n == 2)
+        {
+            return 1;
+        }
+        int* F = new int[n + 1];//存储状态
+        F[0] = 0;//初始值
+        F[1] = 1;//状态F[i]表示第i项的斐波那契数值
+        for(int i = 2; i <= n; ++i)
+        {//状态转换方程
+            F[i] = F[i - 1] + F [i - 2];
+        }
+        delete[] F;
+        return F[n];
+    }
+};
