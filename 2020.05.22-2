@@ -71,5 +71,13 @@ int main()
 }
 
 
-
+//动态规划---空间复杂度降低
+        int size = res.size();
+        int cur = res[0], maxNum = res[0];
+        for(int i = 1; i < size; ++i)
+        {
+            cur = max(cur + res[i], res[i]);//连续的体现
+            maxNum = max(cur, maxNum); 
+        }
+        cout << maxNum << endl;
 
