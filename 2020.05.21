@@ -3,7 +3,7 @@
 class Solution {
 public:
     int jumpFloorII(int number) {
-        /*
+        /*自底向上
           因为n级台阶，第一步有n种跳法：跳1级、跳2级、到跳n级
           跳1级，剩下n-1级，则剩下跳法是f(n-1)
           跳2级，剩下n-2级，则剩下跳法是f(n-2)
@@ -13,3 +13,45 @@ public:
         return 1 << (number - 1);
     }
 };
+
+方法2：自顶向下
+class Solution {
+public:
+    int jumpFloorII(int number) {
+        /*自顶向下---对于第i节台阶，可以从第i-1节跳上来，也可以从i-2......0节跳上来
+        经过观察，跳上第i节台阶的方法数可以由第i-1的方法数加i-2....加0节
+        即状态F[i]为跳上第i节的方法数
+        F[i] = F[i - 1] + F[i - 2] + ... + F[0]
+        F[i] = 2 * F[i - 1]
+        初始化：F[0] = 0
+        */
+        int *F = new int[number + 1];
+        F[0] = 0, F[1] = 1;
+        for(int i = 2; i <= number; ++i)
+        {
+            F[i] = 2*F[i - 1];
+        }
+        return F[number];
+    }
+};
+两种方法得出的状态转换方程一致
+
+
+//青蛙跳台阶----一次只能跳一节或两节
+//动态规划
+class Solution {
+public:
+    int jumpFloor(int number) {
+        //青蛙只能从n-1台阶上跳上来或者n-2台阶上跳上来，F(n) = F(n - 1) + F(n - 2)
+        //F(n)表示跳到第n个台阶上的方法数
+        int *F = new int[number + 1];
+        F[1] = 1;
+        F[2] = 2;
+        for(int i = 3; i < number + 1; ++i)
+        {
+            F[i] = F[i - 1] + F[i - 2];
+        }
+        return F[number];
+    }
+};
+
