@@ -1,0 +1,75 @@
+//最大连续子数组和
+
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n;
+    while(cin >> n)
+    {
+        vector<int> res;
+        if(n == 0)
+            return 0;
+        while(n--)
+        {
+            int a;
+            cin >> a;
+            res.push_back(a);
+        }
+        int max = res[0], cur = res[0];
+        for(int i = 1; i < res.size(); ++i)
+        {
+            if(cur < 0)
+                cur = 0;
+            cur += res[i];
+            if(cur > max)
+                max = cur;
+        }
+        cout << max << endl;
+    }
+    return 0;
+}
+
+
+
+
+动态规划：
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n;
+    while(cin >> n)
+    {
+        vector<int> res;
+        if(n == 0)
+            return 0;
+        while(n--)
+        {
+            int a;
+            cin >> a;
+            res.push_back(a);
+        }
+        int size = res.size();
+        int *F = new int[size];//存放状态的数组
+        F[0] = res[0];//初始化 ***F[i]表示以第i项结尾的最大连续子数组和***
+        for(int i = 1; i < size; ++i)
+        {
+     //状态转换方程----上一次的最大和加上当前数，与当前数作比较，较大者为当前的最大和
+            F[i] = max(F[i - 1] + res[i], res[i]);
+        }
+        int maxNum = F[0];
+        for(int i = 1; i < size; ++i)
+        {
+            maxNum = max(maxNum, F[i]);
+        }
+        cout << maxNum <<endl;//返回值 所有状态中最大的一个---以某个数结尾的最大值
+    }
+    return 0;
+}
+
+
+
+
