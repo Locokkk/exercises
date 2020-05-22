@@ -1,0 +1,39 @@
+//字符串---字典匹配问题
+
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string> &dict) {
+        /*
+             状态F(i):i位以前的字符串是否匹配成功(包括i位)
+             状态转移方程：F(i) = i > j && F(j) && [j + 1, i]可以在字典中找到
+             初始值：F(0) = true----辅助状态
+             返回值：res[res.size()]---存放状态的数组，最后一个为true即成功匹配全部
+             注意：j有不同取值，即对应不同种对字符串的分割方式，都要试试
+             
+             例：leetcode      dic["leet", "code"]
+             F(0):true
+             F(1):F(0) && 'l'
+             F(2):F(1) && 'e'   F(0)&&"le"
+             F(3):F(2)&& ‘e’   F(1) && "ee"   F(0) && "lee"
+        */
+        if(s.size() == 0)
+            return false;
+        int len = s.size();
+        vector<bool> res(len + 1, false);
+        res[0] = true;
+        for(int i = 1; i <= len; ++i)
+        {//由于状态设置的是真实的位数，并没有-1，所以这里也要注意
+            for(int j = i - 1; j >= 0; --j)
+            {
+                if(res[j] 
+                   && dict.find(s.substr(j, i - j)) != dict.end())
+                {//这里注意：res[]和s的下标的处理：s要-1
+                    res[i] = true;
+                    break;
+                }
+            }
+        }
+        return res[s.size()];
+    }
+};
+
