@@ -1,0 +1,27 @@
+//最小路径和---动态规划
+
+class Solution {
+public:
+    int minimumTotal(vector<vector<int> > &triangle) {
+        vector<vector<int> > v(triangle);//初始化:v[0][0]
+        int row = triangle.size();
+        for(int i = 1; i < row; ++i)
+        {
+            for(int j = 0; j <= i; ++j)
+            {
+                if(j == 0)
+                    v[i][j] = v[i - 1][j] + triangle[i][0];
+                else if(i == j)
+                    v[i][j] = v[i - 1][j - 1] + triangle[i][i];
+                else
+                    v[i][j] = min(v[i - 1][j], v[i - 1][j - 1]) + triangle[i][j];
+            }
+        }
+        int minNum = v[row - 1][0];
+        for(int i = 1; i < v[row - 1].size(); ++i)
+        {
+            minNum = min(minNum, v[row - 1][i]);
+        }
+        return minNum;
+    }
+};
