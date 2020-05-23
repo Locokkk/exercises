@@ -1,0 +1,47 @@
+//路径总数---动态规划
+
+class Solution {
+public:
+    /**
+     * 
+     * @param obstacleGrid int整型vector<vector<>> 
+     * @return int整型
+     */
+    int uniquePathsWithObstacles(vector<vector<int> >& obstacleGrid) {
+        // write code here
+        if(obstacleGrid.empty())
+        {
+            return 0;
+        }
+        int row = obstacleGrid.size();
+        int col = obstacleGrid[0].size();
+        vector<vector<int> > path(row, vector<int>(col, 0));
+        for(int i = 0; i < row; ++i)
+        {
+            if(obstacleGrid[i][0] == 0)
+            {
+                path[i][0] = 1;
+            }
+            else
+                break;//初始化过程中，如果第一行或第一列有一个为障碍，则后面的全为0，不可到达，即没有路径
+        }
+        for(int j = 0; j < col; ++j)
+        {
+            if(obstacleGrid[0][j] == 0)
+            {
+                path[0][j] = 1;
+            }
+            else
+                break;
+        }
+        for(int i = 1; i < row; ++i)
+        {
+            for(int j = 1; j < col; ++j)
+            {
+                if(obstacleGrid[i][j] == 0)
+                    path[i][j] = path[i - 1][j] + path[i][j - 1];
+            }
+        }
+        return path[row - 1][col - 1];
+    }
+};
