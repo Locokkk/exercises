@@ -1,0 +1,51 @@
+//回文串分割的最小次数------动态规划
+
+class Solution {
+public:
+    /**
+     * 
+     * @param s string字符串 
+     * @return int整型
+     */
+    bool isPal(string s, int a, int b)
+    {
+        while(a <= b)
+        {
+            if(s[a] != s[b])
+            {
+                return false;
+            }
+            a++;
+            b--;
+        }
+        return true;
+    }
+    int minCut(string s) {
+        // write code here
+        if(s.empty())
+            return 0;
+        vector<int> v;
+        int len = s.size();
+        for(int i = 0; i < len; ++i)
+        {
+            v.push_back(i);
+        }
+        for(int i = 1; i < len; ++i)
+        {
+            //对于每个第i步，都要判断当前整个串是否为回文串，若是，则把当前状态置为0，对于这个i的接下来就不用执行了
+            if(isPal(s, 0, i))
+            {
+                v[i] = 0;
+                continue;
+            }
+            for(int j = i - 1; j >= 0; --j)
+            {
+                if(isPal(s, j + 1, i))
+                {//体会：这里的v[i]是在不断更新的
+                    v[i] = min(v[i], v[j] + 1);
+                }
+            }
+        }
+        return v[len - 1];
+    }
+};
