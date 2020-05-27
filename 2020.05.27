@@ -1,0 +1,46 @@
+//子串匹配---S中有多少个不同的子串与T相同----动态规划
+
+class Solution {
+public:
+    /**
+     * 
+     * @param S string字符串 
+     * @param T string字符串 
+     * @return int整型
+     */
+    int numDistinct(string S, string T) {
+        // write code here
+        int row = S.size();
+        int col = T.size();
+        /*状态F(i, j):S的前i个字符中以T的前j个字符为子串的个数
+          F(i, j):
+          如果S的第i个字符和T的第j个字符相同
+          F(i, j) = F(i - 1, j - 1) + F(i- i, j);
+          如果S的第i个字符和T的第j个字符不同----退化
+          F(i, j) = F(i - 1, j)
+          初始化：F(i, 0) = 1---S的前i个字符中有空串的个数为1
+          要是觉得初始化的过程不好理解，也可以手动算出F(i, 1)，只是这样工作量比较大
+          返回值：F(row, col)
+        */
+        vector<vector<int> > res(row + 1, vector<int>(col + 1, 0));
+        for(int i = 0; i <= row; ++i)
+        {//初始化
+            res[i][0] = 1;
+        }
+        for(int i = 1; i <= row; ++i)
+        {
+            for(int j = 1; j <= col; ++j)
+            {
+                if(S[i - 1] == T[j - 1])
+                {
+                   res[i][j] = res[i - 1][j - 1] + res[i - 1][j];
+                }
+                else
+                {//退化
+                    res[i][j] = res[i - 1][j];
+                }
+            }
+        }
+        return res[row][col];
+    }
+};
