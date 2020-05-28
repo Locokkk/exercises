@@ -1,0 +1,130 @@
+//员工的重要性----dfs
+
+/*
+// Definition for Employee.
+class Employee {
+public:
+    int id;
+    int importance;
+    vector<int> subordinates;
+};
+*/
+
+class Solution {
+public:
+    void dfs(unordered_map<int, Employee*>& m, int curId, int& sum)
+    {
+        sum += m[curId]->importance;//加当前员工的重要性
+        for(auto e : m[curId]->subordinates)
+        {//遍历当前员工的所有下属
+            dfs(m, e, sum);
+        }
+    }
+    int getImportance(vector<Employee*> employees, int id) {
+        unordered_map<int, Employee*> m;//哈希优化
+        for(auto e : employees)
+        {
+            m[e->id] = e;
+        }
+        int sum = 0;
+        dfs(m, id, sum);
+        return sum;
+    }
+};
+
+
+
+
+//图像渲染----dfs
+int position[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+class Solution {
+public:
+    void dfs(vector<vector<int>>& image, vector<vector<char>>& mark, int sr, int sc, int row, int col, int newColor)
+    {
+        int oldColor = image[sr][sc];//记录旧颜色
+        image[sr][sc] = newColor;//设置为新颜色
+        mark[sr][sc] = '1';//标记
+        for(int i = 0; i < 4; ++i)
+        {//对每个小块的上下左右进行遍历
+            int nx = sr + position[i][0];
+            int ny = sc + position[i][1];
+            if(nx < 0 || nx >= row ||ny < 0 ||ny >= col)
+                continue;
+            if(image[nx][ny] == oldColor && mark[nx][ny] == '0')
+            {
+                dfs(image, mark, nx, ny, row, col, newColor);
+            }
+        }
+    } 
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        if(image.empty())
+        {
+            return image;
+        }
+        int row = image.size();
+        int col = image[0].size();
+        vector<vector<char> > mark(row, vector<char>(col, '0'));
+        dfs(image, mark, sr, sc, row, col, newColor);
+        return image;
+    }
+};
+
+
+//被围绕的区域----
+/*思路：要是o在最边上，那么联通的o也不算被围绕的，所以从四面开始找没有被联通的o进行标记，最后没有被标记的o则为被联通的o
+*/
+int position[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+class Solution {
+public:
+    void dfs(vector<vector<char>>& board, int curx, int cury, int row, int col)
+    {
+        board[curx][cury] = '#';//标记
+        for(int i = 0; i < 4; ++i)
+        {
+            int nx = curx + position[i][0];
+            int ny = cury + position[i][1];
+            if(nx < 0 || nx >= row || ny < 0 || ny >= col)
+                continue;
+            if(board[nx][ny] == 'O')
+            {
+                dfs(board, nx, ny, row, col);
+            }
+        }
+    }
+    void solve(vector<vector<char>>& board) {
+        if(board.empty())
+        {
+            return;
+        }
+        int row = board.size();
+        int col = board[0].size();
+        //第一行和最后一行进行O检查
+        for(int i = 0; i < col; ++i)
+        {
+            if(board[0][i] == 'O')
+                dfs(board, 0, i, row, col);
+            if(board[row - 1][i] == 'O')
+                dfs(board, row - 1, i, row, col);
+        }
+        //第一列和最后一列进行O检查
+        for(int i = 1; i < row; ++i)
+        {
+            if(board[i][0] == 'O')
+                dfs(board, i, 0, row, col);
+            if(board[i][col - 1] == 'O')
+                dfs(board, i, col - 1, row, col);
+        }
+        //最后对整个矩阵进行遍历，找没有被标记过的O，重新处理掉#
+        for(int i = 0; i < row; ++i)
+        {
+            for(int j = 0; j < col; ++j)
+            {
+                if(board[i][j] == 'O')
+                    board[i][j] = 'X';
+                if(board[i][j] == '#')
+                    board[i][j] = 'O';   
+            }
+        }
+    }
+};
+
