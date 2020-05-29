@@ -1,0 +1,53 @@
+//单词接龙----bfs
+
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        if(wordList.size() == 0)
+        {
+            return 0;
+        }
+        unordered_set<string> word;//哈希结构优化
+        for(auto e : wordList)
+        {
+            word.insert(e);
+        }
+        if(word.find(endWord) == word.end())
+        {//特殊情况
+            return 0;
+        }
+        unordered_set<string> mark;//将匹配过的单词标记，防止循环回去
+        queue<string> q;
+        mark.insert(beginWord);
+        q.push(beginWord);
+        int step = 1;
+        while(!q.empty())
+        {
+            int size = q.size();//一轮bfs,将所有可能到达的情况同时做bfs
+            while(size--)
+            {
+                string curS = q.front();
+                q.pop();
+                for(int i = 0; i < curS.size(); ++i)
+                {
+                    string newS = curS;
+                    for(char ch = 'a'; ch <= 'z'; ++ch)
+                    {
+                        newS[i] = ch;
+                        if(newS == endWord)
+                        {//匹配到了最后一个单词
+                           return step + 1;
+                        }
+                        if(word.find(newS) != word.end() && mark.find(newS) == mark.end())
+                        {//该单词存在于词典中，且之前没有匹配到过
+                            q.push(newS);//可作为下一轮bfs的单词
+                            mark.insert(newS);//将该单词标记起来
+                        }
+                    }
+                }
+            }
+            ++step;//一步bfs结束
+        }
+        return 0;
+    }
+};
