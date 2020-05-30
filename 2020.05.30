@@ -1,0 +1,59 @@
+//打开转盘锁----bfs
+
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        if("0000" == target)
+        {
+            return 0;
+        }
+        unordered_set<string> dead;
+        for(auto e : deadends)
+        {
+            dead.insert(e);
+        }
+        if(dead.find("0000") != dead.end())
+        {//初始值也可能是死锁值
+            return -1;
+        }
+        unordered_set<string> mark;
+        mark.insert("0000");
+        queue<string> q;
+        q.push("0000");
+        int step = 0;
+        while(!q.empty())
+        {
+            int size = q.size();
+            while(size--)
+            {
+                string curS = q.front();
+                q.pop();
+                if(curS == target)
+                {
+                    return step;
+                }
+                for(int i = 0; i < curS.size(); ++i)
+                {
+                    string newS1 = curS, newS2 = curS;//这个要在for里面，因为是对curS的处理
+                    newS1[i] = newS1[i] == '9' ? '0' : newS1[i] + 1;//每个当前值的每一位有两种转动方法：上、下
+                    newS2[i] = newS2[i] == '0' ? '9' : newS2[i] - 1;
+                    if(dead.find(newS1) == dead.end() && mark.find(newS1) == mark.end())
+                    {
+                        q.push(newS1);
+                        mark.insert(newS1);
+                    }
+                    if(dead.find(newS2) == dead.end() && mark.find(newS2) == mark.end())
+                    {
+                        q.push(newS2);
+                        mark.insert(newS2);
+                    }
+                }
+            }
+            ++step;
+        }
+        return -1;
+    }
+};
+
+
+
