@@ -1,0 +1,22 @@
+ //二分查找
+
+  while(low<=high)
+  {
+     count++;
+     mid=(low+high)/2;
+     cout<<"第"<<count<<"次查找，其中low="<<low<<"   high="<<high<<"   mid="<<mid<<endl;
+     if(guess==a[mid])
+     {
+         flag=1;
+         cout<<"success！比较次数:"<<count<<"次"<<endl;
+         break;//查找成功就退出，如果想要继续查找也是可以的
+     }
+     if(guess>a[mid])
+     {
+	      low=mid+1;
+     }
+     if(guess<a[mid])
+     {
+	      high=mid-1;
+	   }		
+   }
