@@ -1,0 +1,21 @@
+//反转链表
+
+class Solution {
+public:
+    ListNode* ReverseList(ListNode* pHead) {
+        if(pHead == nullptr || pHead->next == nullptr)
+        {
+            return pHead;
+        }
+        ListNode* curNode = pHead;
+        ListNode* newNode = nullptr;
+        while(curNode != nullptr)
+        {
+            ListNode* next = curNode->next;
+            curNode->next = newNode;
+            newNode = curNode;
+            curNode = next;
+        }
+        return newNode;
+    }
+};
